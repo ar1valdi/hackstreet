@@ -6,12 +6,11 @@ namespace HackstreeetServer.src.DatabaseContext.DbConfigs
 {
     public class MeasureConfiguration : IEntityTypeConfiguration<Measure>
     {
-
         public void Configure(EntityTypeBuilder<Measure> builder)
         {
-            builder.HasOne(s => s.Sensor)
+            builder.HasOne(s => s.Station)
                 .WithMany(s => s.Measures)
-                .HasForeignKey(s => s.SensorId);
+                .HasForeignKey(s => s.StationId);
         }
     }
 }

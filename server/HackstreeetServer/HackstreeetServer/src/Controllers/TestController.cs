@@ -32,14 +32,6 @@ namespace HackstreeetServer.src.Controllers
 
 
         [HttpGet]
-        [Route("getAllSensors")]
-        public Task<Sensor[]> GetSensors(float lat, float lon)
-        {
-            return _mediator.Send(new GetAllSensors());
-        }
-
-
-        [HttpGet]
         [Route("getAllStations")]
         public Task<Station[]> GetStations(float lat, float lon)
         {

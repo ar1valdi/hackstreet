@@ -15,6 +15,6 @@ namespace HackstreeetServer.src.Models.Measures
         public float Longitude { get; set; }
         [Column("station_type")]
         public StationType Type { get; set; }
-        public List<Sensor> Sensors { get; set; }
+        public List<Measure> Measures { get; set; }
     }
 }
