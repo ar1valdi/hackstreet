@@ -48,7 +48,7 @@ class Station:
             sensor_sensing = sensor[2]['paramName']
             # self.dict[sensor_code] = sensor_id
 
-            sensors.append(Sensor(id=sensor_id, station_id=self.id, code=sensor_code, sensing=sensor_sensing))
+            sensors.append(Sensor(id=sensor_id, station_id=self.id, station=self, code=sensor_code, sensing=sensor_sensing))
 
             # sensor_measure_link = "https://api.gios.gov.pl/pjp-api/rest/data/getData/" + str(sensor[0])
             # response_sensor = requests.get(sensor_measure_link)
@@ -66,9 +66,11 @@ class Station:
 
 
 class Sensor:
-    def __init__(self, id, station_id, code, sensing):
+    def __init__(self, id, station, station_id, code, sensing):
         self.id = id
         self.measure_link = "https://api.gios.gov.pl/pjp-api/rest/data/getData/" + str(self.id)
+        self.station = station
+        self.sensing = sensing
         self.dict = {
             "id": self.id,
             "station_id": station_id,
@@ -78,13 +80,14 @@ class Sensor:
 
 
 class Measure:
-    def __init__(self, sensor_id, date, value):
+    def __init__(self, station_id, date, value, sensing):
         self.dict = {
             "data": date,
-            "sensor_id": sensor_id,
+            "station_id": station_id,
             "value": value,
             "min_value": None,
-            "max_value": None
+            "max_value": None,
+            "sensing": sensing
         }
 
 
@@ -136,7 +139,7 @@ class DataProvider:
                 measure_date = measure[1]['date']
                 measure_val = measure[1]['value']
 
-                measures.append(Measure(sensor_id=sensor.id, date=measure_date, value=measure_val))
+                measures.append(Measure(station_id=sensor.station.id, date=measure_date, value=measure_val, sensing=sensor.sensing))
 
         return measures
 
@@ -147,11 +150,11 @@ class DataProvider:
             w.writerow(station.dict)
         stations_file.close()
 
-        sensors_file = open('Sensors.csv', 'w')
-        w = csv.DictWriter(sensors_file, self.sensors[0].dict.keys())
-        for sensor in self.sensors:
-            w.writerow(sensor.dict)
-        sensors_file.close()
+        # sensors_file = open('Sensors.csv', 'w')
+        # w = csv.DictWriter(sensors_file, self.sensors[0].dict.keys())
+        # for sensor in self.sensors:
+        #     w.writerow(sensor.dict)
+        # sensors_file.close()
 
         measures_file = open('Measures.csv', 'w')
         w = csv.DictWriter(measures_file, self.measures[0].dict.keys())
