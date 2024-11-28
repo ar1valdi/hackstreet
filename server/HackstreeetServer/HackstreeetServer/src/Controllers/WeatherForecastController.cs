@@ -22,7 +22,7 @@ namespace HackstreeetServer.src.Controllers
         }
 
         [HttpGet]
-        [Route("/{lat}/{lon}")]
+        [Route("{lat}/{lon}")]
         public Task<EcoDetails> Get(float lat, float lon)
         {
             return _mediator.Send(new GetEcoDetails { Lat = lat, Lon = lon});
