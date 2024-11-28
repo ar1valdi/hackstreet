@@ -1,17 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HackstreeetServer.src.Handlers.Measures
+namespace HackstreeetServer.src.Models.Measures
 {
     [Table("sensors")]
     public class Sensor
     {
-        [Column("id")] 
+        [Key]
+        [Column("id")]
         public long Id { get; set; }
         public Station ForStation { get; set; }
+        [Column("station_id")]
         public long StationId { get; set; }
-        [Column("keycode")] 
+        [Column("keycode")]
         public string Keycode { get; set; }
-        [Column("sensing")] 
+        [Column("sensing")]
         public string Sensing { get; set; }
         public List<Measure> Measures { get; internal set; }
     }

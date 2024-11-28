@@ -1,3 +1,4 @@
+using HackstreeetServer.src.Repositories;
 using System.Net.NetworkInformation;
 using System.Reflection;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<Program>());
+builder.Services.AddScoped<IMeasureRepository, MeasureRepository>();
 
 var app = builder.Build();
 
