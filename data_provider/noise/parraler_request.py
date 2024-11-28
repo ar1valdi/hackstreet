@@ -8,8 +8,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 one_lat = 65
 one_lon = 111.1
 
-iterations_x = 6
-iterations_y = 4
+iterations_x = 300
+iterations_y = 200
 
 distance_x = 30
 distance_y = 20
