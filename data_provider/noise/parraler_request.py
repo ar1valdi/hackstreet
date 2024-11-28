@@ -8,8 +8,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 one_lat = 65
 one_lon = 111.1
 
-iterations_x = 6
-iterations_y = 4
+iterations_x = 600
+iterations_y = 400
 
 distance_x = 30
 distance_y = 20
@@ -41,7 +41,7 @@ id = 16243
 def get_noise_for_row(row):
     return get_noise_by_coords(row['lat'], row['lon'])
 
-with ThreadPoolExecutor(max_workers=10) as executor:
+with ThreadPoolExecutor(max_workers=100) as executor:
     future_to_index = {executor.submit(get_noise_for_row, row): i for i, row in data.iterrows()}
     i = 0
     for future in as_completed(future_to_index):
