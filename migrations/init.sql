@@ -27,12 +27,13 @@ CREATE TABLE sensors (
 
 CREATE TABLE measures (
 	date TIMESTAMP,
-	sensor_id BIGINT,
+	station_id BIGINT,
 	value FLOAT,
 	min_value FLOAT,
 	max_value FLOAT,
-	PRIMARY KEY (date, sensor_id),
-	FOREIGN KEY (sensor_id) REFERENCES sensors
+	sensing varchar(100),
+	PRIMARY KEY (date, station_id, sensing),
+	FOREIGN KEY (station_id) REFERENCES stations
 );
 
 INSERT INTO station_types (id, station_name) VALUES 
