@@ -1,26 +1,26 @@
 import requests
 import json
 
-def conv_lat_to_y(lat):
-    res = (lat-54.430374)*111259.56564514196+6033512.913664646
+def conv_lat_to_x(lat):
+    res = (lat-18.591573)*64546.27909872957+6538378.755415827
     return res
-def conv_lon_to_x(lon):
-    res = (lon-18.591573)*64546.27909872957+6538378.755415827
+def conv_lon_to_y(lon):
+    res = (lon-54.430374)*111259.56564514196+6033512.913664646
     return res
     
     
 
 def conv_y_to_lat(y):
-    res = (y-6033512.913664646)/111259.56564514196 + 54.430374
+    res = (y-6538378.755415827)/64546.27909872957 + 18.591573
     return res
 def conv_x_to_lon(x):
-    res = (x-6538378.755415827)/64546.27909872957 + 18.591573
+    res = (x-6033512.913664646)/111259.56564514196 + 54.430374
     return res
 
 
 def get_noise_by_coords(lat,lon):
-    y = conv_lat_to_y(lat)
-    x= conv_lon_to_x(lon)
+    x = conv_lat_to_x(lat)
+    y= conv_lon_to_y(lon)
     
     try:
         str_link = f'https://geogdansk.pl/server/rest/services/WSrod/Halas_Drogi_LDWN/MapServer/0/query?f=json&geometry=%7B%22xmin%22%3A{x}%2C%22ymin%22%3A{y}%2C%22xmax%22%3A{x}%2C%22ymax%22%3A{y}%7D&outFields=MAXVAL%2CMINVAL&spatialRel=esriSpatialRelIntersects&where=1%3D1&geometryType=esriGeometryEnvelope&inSR=2177&outSR=2177'
