@@ -8,8 +8,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 one_lat = 65
 one_lon = 111.1
 
-iterations_x = 60
-iterations_y = 40
+iterations_x = 6
+iterations_y = 4
 
 distance_x = 30
 distance_y = 20
@@ -34,7 +34,9 @@ data = pd.DataFrame()
 data['lat'] = lats
 data['lon'] = longs
 
-results = pd.DataFrame()
+results = []
+
+id = 16243
 
 def get_noise_for_row(row):
     return get_noise_by_coords(row['lat'], row['lon'])
@@ -43,17 +45,22 @@ with ThreadPoolExecutor(max_workers=10) as executor:
     future_to_index = {executor.submit(get_noise_for_row, row): i for i, row in data.iterrows()}
     i = 0
     for future in as_completed(future_to_index):
-        
         print('iterator ',i)
+        result = future.result()
+        lat=result['lat']
+        lon=result['lon']
+        x=result['x']
+        y=result['y']
         try:
-            result = future.result()
-            lat=result['lat']
-            lon=result['lon']
-            x=result['x']
-            y=result['y']
             min_db = result['MINVAL']
             max_db = result['MAXVAL']
-            results.append([lat,lon,min_db,max_db])
+            results.append([id,lat,lon,x,y,min_db,max_db,2])
         except Exception as e:
             print(f"Error getting data: {e}")
+            #results.append([id,lat,lon,x,y,None,None,2])
         i += 1
+        id+=1
+        
+        
+df = pd.DataFrame(results,columns=['id','lat','lon','x','y','min_db','max_db','station_type'])
+df.to_csv("out_noise.csv",sep=';')

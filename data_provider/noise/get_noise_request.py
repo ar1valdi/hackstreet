@@ -33,7 +33,11 @@ def get_noise_by_coords(lat,lon):
         res_attrs['y'] = y
         
     except:
-        res_attrs = "No results"
+        res_attrs= {}
+        res_attrs['lat'] = lat
+        res_attrs['lon'] = lon
+        res_attrs['x'] = x
+        res_attrs['y'] = y
     
     print(f"lat:{lat} lon:{lon} x:{x} y:{y} attrs: {res_attrs}")
     return res_attrs
