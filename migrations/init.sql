@@ -1,7 +1,8 @@
-DROP TABLE measures;
-DROP TABLE sensors;
-DROP TABLE stations;
-DROP TABLE station_types;
+CREATE TABLE mock_suggestions (
+	id BIGINT PRIMARY KEY,
+	description VARCHAR(100),
+	added_by VARCHAR(100)
+);
 
 CREATE TABLE station_types (
 	id INT PRIMARY KEY,
@@ -25,7 +26,7 @@ CREATE TABLE sensors (
 );
 
 CREATE TABLE measures (
-	date DATE,
+	date TIMESTAMP,
 	sensor_id BIGINT,
 	value FLOAT,
 	min_value FLOAT,
@@ -33,7 +34,6 @@ CREATE TABLE measures (
 	PRIMARY KEY (date, sensor_id),
 	FOREIGN KEY (sensor_id) REFERENCES sensors
 );
-
 
 INSERT INTO station_types (id, station_name) VALUES 
 (1, 'Stacja pomiaru jakości powietrza'),

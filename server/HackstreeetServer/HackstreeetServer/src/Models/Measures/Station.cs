@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace HackstreeetServer.src.Handlers.Measures
+namespace HackstreeetServer.src.Models.Measures
 {
     [Table("stations")]
     public class Station
     {
+        [Key]
         [Column("id")]
         public long Id { get; set; }
         [Column("latitude")]

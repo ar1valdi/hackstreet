@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using HackstreeetServer.src.Handlers.Measures;
+using HackstreeetServer.src.Models.Measures;
 
 namespace HackstreeetServer.src.DatabaseContext.DbConfigs
 {

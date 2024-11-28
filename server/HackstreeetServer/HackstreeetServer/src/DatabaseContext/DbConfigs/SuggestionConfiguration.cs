@@ -6,7 +6,7 @@ namespace HackstreeetServer.src.DatabaseContext.DbConfigs
 {
     public class SuggestionConfiguration : IEntityTypeConfiguration<Suggestion>
     {
-        private const string TABLE_NAME = "suggestions";
+        private const string TABLE_NAME = "mock_suggestions";
 
         public void Configure(EntityTypeBuilder<Suggestion> builder)
         {
