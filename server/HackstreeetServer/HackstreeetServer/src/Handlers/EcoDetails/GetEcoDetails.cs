@@ -26,8 +26,10 @@ namespace HackstreeetServer.src.Handlers.GetWeatherHandler
             {
                 Latitude = request.Lat,
                 Longitude = request.Lon,
-                AirScore = await _service.FilterGrade(request.Lat, request.Lon, ""),
-                SoundScore = (float)random.NextDouble() * 10
+                AirScore = await _service.FilterGrade(request.Lat, request.Lon, "powietrze"),
+                SoundScore = await _service.FilterGrade(request.Lat, request.Lon, "hałas"),
+                LightScore = await _service.FilterGrade(request.Lat, request.Lon, "światło"),
+                WaterScore = await _service.FilterGrade(request.Lat, request.Lon, "woda"),
             };
             details.CalculateOverallScore();
             return details;

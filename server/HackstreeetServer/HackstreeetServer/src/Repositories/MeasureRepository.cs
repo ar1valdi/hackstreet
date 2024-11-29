@@ -29,7 +29,11 @@ namespace HackstreeetServer.src.Repositories
 
         public Task<Station[]> GetStationBySensing(string sensing)
         {
-            return _context.Set<Station>().Where(s => s.Measures.Where(m => m.Sensing == sensing).Any()).ToArrayAsync();
+            return _context.Set<Station>().Include(am => am.Measures).Where(s => s.Measures.Where(m => m.Sensing == sensing).Any()).ToArrayAsync();
+        }
+        public Task<Measure[]> GetMeasureBySensingAndStationID(string sensing,long stationID)
+        {
+            return _context.Set<Measure>().Where(s => (s.Sensing == sensing && s.StationId == stationID)).ToArrayAsync();
         }
     }
 }
