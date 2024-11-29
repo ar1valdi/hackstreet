@@ -32,15 +32,15 @@ namespace HackstreeetServer.src.Controllers
             return _mediator.Send(new GetEcoDetails { Lat = lat, Lon = lon});
         }
 
-        [HttpPost]
-        [Route("map")]
-        public Task<EcoDetailMapField[]> GetGetAllDetails(req r)
+        [HttpGet]
+        [Route("map/{dLat}/{dLon}/{str}")]
+        public Task<EcoDetailMapField[]> GetGetAllDetails(float dLat, float dLon, string str)
         {
             float startLat = 54.30f;
             float startLon = 18.48f;
             float endLat = 54.43f;
             float endLon = 18.82f;
-            return ecoGraderService.GetAllDetails(startLat, startLon, endLat, endLon, r.dLat, r.dLon, r.categoryFilter);
+            return ecoGraderService.GetAllDetails(startLat, startLon, endLat, endLon, startLat, dLon, [str]);
         }
     }
 }
