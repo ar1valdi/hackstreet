@@ -33,7 +33,7 @@ namespace HackstreeetServer.src.Controllers
 
         [HttpGet]
         [Route("getAllStations")]
-        public Task<Station[]> GetStations(float lat, float lon)
+        public Task<Station[]> GetStations()
         {
             return _mediator.Send(new GetAllStations());
         }
