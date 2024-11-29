@@ -21,7 +21,8 @@ namespace HackstreeetServer.src.Services
             {
                 case "powietrze":
                     {
-                        float meanNO2Value = await GradePointOneFilter(latitude, longitude, "dwutlenek azotu");
+                        var airOnly = measures.Where(m => m.Measures.Where(m => m.Category == "powietrze").Any()).ToArray();
+                        float meanNO2Value = GradePointOneFilter(latitude, longitude, "dwutlenek azotu", airOnly);
                         float NO2Grade;
 
                         if (meanNO2Value < 40)
@@ -48,7 +49,7 @@ namespace HackstreeetServer.src.Services
                             NO2Grade = 0;
                         }
 
-                        float meanBenzinValue = await GradePointOneFilter(latitude, longitude, "benzen");
+                        float meanBenzinValue = GradePointOneFilter(latitude, longitude, "benzen", airOnly);
                         float BenzinGrade;
 
                         if (meanBenzinValue < 40)
@@ -75,7 +76,7 @@ namespace HackstreeetServer.src.Services
                         {
                             BenzinGrade = 0;
                         }
-                        float meanSO2Value = await GradePointOneFilter(latitude, longitude, "dwutlenek siarki");
+                        float meanSO2Value = GradePointOneFilter(latitude, longitude, "dwutlenek siarki", airOnly);
                         float SO2Grade;
 
                         if (meanSO2Value < 50)
@@ -102,7 +103,7 @@ namespace HackstreeetServer.src.Services
                         {
                             SO2Grade = 0;
                         }
-                        float meanO3Value = await GradePointOneFilter(latitude, longitude, "ozon");
+                        float meanO3Value = GradePointOneFilter(latitude, longitude, "ozon", airOnly);
                         float O3Grade;
 
                         if (meanO3Value < 70)
@@ -129,7 +130,7 @@ namespace HackstreeetServer.src.Services
                         {
                             O3Grade = 0;
                         }
-                        float meanPM10Value = await GradePointOneFilter(latitude, longitude, "pył zawieszony PM10");
+                        float meanPM10Value = GradePointOneFilter(latitude, longitude, "pył zawieszony PM10", airOnly);
                         float PM10Grade;
 
                         if (meanPM10Value < 20)
@@ -156,7 +157,7 @@ namespace HackstreeetServer.src.Services
                         {
                             PM10Grade = 0;
                         }
-                        float meanPM25Value = await GradePointOneFilter(latitude, longitude, "pył zawieszony PM2.5");
+                        float meanPM25Value = GradePointOneFilter(latitude, longitude, "pył zawieszony PM2.5", airOnly);
                         float PM25Grade;
 
                         if (meanPM25Value < 13)
@@ -183,7 +184,7 @@ namespace HackstreeetServer.src.Services
                         {
                             PM25Grade = 0;
                         }
-                        float meanCOValue = await GradePointOneFilter(latitude, longitude, "tlenek węgla");
+                        float meanCOValue = GradePointOneFilter(latitude, longitude, "tlenek węgla", airOnly);
                         float COGrade;
 
                         if (meanCOValue < 2000)
@@ -203,12 +204,11 @@ namespace HackstreeetServer.src.Services
                         float result = (COGrade + PM25Grade + PM10Grade + O3Grade + NO2Grade + SO2Grade) / 6;
 
                         return result;
-
-                        break;
                     }
                 case "woda":
                     {
-                        float meanHardnessValue = await GradePointOneFilter(latitude, longitude, "Twardość - mg/l");
+                        var waterOnly = measures.Where(m => m.Measures.Where(m => m.Category == "woda").Any()).ToArray();
+                        float meanHardnessValue = GradePointOneFilter(latitude, longitude, "Twardość - mg/l", waterOnly);
                         float HardnessGrade;
 
                         if (meanHardnessValue < 60)
@@ -237,7 +237,7 @@ namespace HackstreeetServer.src.Services
                         }
 
 
-                        float meanPHValue = await GradePointOneFilter(latitude, longitude, "pH");
+                        float meanPHValue = GradePointOneFilter(latitude, longitude, "pH", waterOnly);
                         float PHGrade;
 
                         if (Math.Abs(meanPHValue-8) < 0.5)
@@ -266,7 +266,7 @@ namespace HackstreeetServer.src.Services
                         }
 
 
-                        float meanSodiumValue = await GradePointOneFilter(latitude, longitude, "Sód");
+                        float meanSodiumValue = GradePointOneFilter(latitude, longitude, "Sód", waterOnly);
                         float SodiumGrade;
 
                         if (Math.Abs(meanSodiumValue - 150) < 20)
@@ -284,7 +284,7 @@ namespace HackstreeetServer.src.Services
 
 
 
-                        float meanChloriumValue = await GradePointOneFilter(latitude, longitude, "Chlorki");
+                        float meanChloriumValue = GradePointOneFilter(latitude, longitude, "Chlorki", waterOnly);
                         float ChloriumGrade;
 
                         if (meanChloriumValue < 250)
@@ -297,7 +297,7 @@ namespace HackstreeetServer.src.Services
                         }
 
 
-                        float meanFluoriumValue = await GradePointOneFilter(latitude, longitude, "Fluorki");
+                        float meanFluoriumValue = GradePointOneFilter(latitude, longitude, "Fluorki", waterOnly);
                         float FluoriumGrade;
 
                         if (meanFluoriumValue < 1.5)
@@ -310,7 +310,7 @@ namespace HackstreeetServer.src.Services
                         }
 
 
-                        float meanSulfurValue = await GradePointOneFilter(latitude, longitude, "Siarczany");
+                        float meanSulfurValue = GradePointOneFilter(latitude, longitude, "Siarczany", waterOnly);
                         float SulfurGrade;
 
                         if (meanSulfurValue < 250)
@@ -322,7 +322,7 @@ namespace HackstreeetServer.src.Services
                             SulfurGrade = 0;
                         }
 
-                        float meanHFValue = await GradePointOneFilter(latitude, longitude, "Wodorowęglany");
+                        float meanHFValue = GradePointOneFilter(latitude, longitude, "Wodorowęglany", waterOnly);
                         float HFGrade;
 
                         if (meanHFValue < 600)
@@ -338,7 +338,7 @@ namespace HackstreeetServer.src.Services
                             HFGrade = 0;
                         }
 
-                        float meanClValue = await GradePointOneFilter(latitude, longitude, "Chlor wolny");
+                        float meanClValue = GradePointOneFilter(latitude, longitude, "Chlor wolny", waterOnly);
                         float ClGrade;
 
                         if (meanClValue < 0.3)
@@ -356,7 +356,7 @@ namespace HackstreeetServer.src.Services
                     }
                 case "hałas":
                     {
-                        float meanNoiseValue = await GradePointOneFilter(latitude, longitude, "poziom hałasu");
+                        float meanNoiseValue = GradePointOneFilter(latitude, longitude, "poziom hałasu", measures);
                         float NoiseGrade;
 
                         if (meanNoiseValue < 50)
@@ -378,7 +378,7 @@ namespace HackstreeetServer.src.Services
                     }
                 case "światło":
                     {
-                        float meanLigthValue = await GradePointOneFilter(latitude, longitude, "poziom światła");
+                        float meanLigthValue = GradePointOneFilter(latitude, longitude, "poziom światła", measures);
                         float LigthGrade;
 
                         if (meanLigthValue < 0.5)
@@ -407,9 +407,6 @@ namespace HackstreeetServer.src.Services
                     }
             }
             
-
-
-
             return -1;
         }
 
@@ -444,15 +441,14 @@ namespace HackstreeetServer.src.Services
             return details;
         }
 
-        public async Task<float> GradePointOneFilter(float latitude, float longitude, string filter)
+        public float GradePointOneFilter(float latitude, float longitude, string filter, Station[] stations)
         {
-            var closestStations = await GetClosestStationsWithFilter(filter, latitude, longitude, 4);
+            var closestStations = GetClosestStationsWithFilter(filter, latitude, longitude, 4, stations);
 
             float fullDistance = 0;
             foreach (var station in closestStations)
             {
-                var measures = await _measureRepository.GetMeasureBySensingAndStationID(filter, station.Id);
-                if (measures != null)
+                foreach (var measure in station.Measures)
                 {
                     fullDistance += GetDistance(station.Latitude, station.Longitude, latitude, longitude);
                 }
@@ -460,10 +456,9 @@ namespace HackstreeetServer.src.Services
             float resultValue=0;
             foreach (var station in closestStations)
             {
-                var measures = await _measureRepository.GetMeasureBySensingAndStationID(filter, station.Id);
-                if (measures != null)
+                foreach (var measure in station.Measures)
                 {
-                    resultValue += (float)measures[0].Value * GetDistance(station.Latitude, station.Longitude, latitude, longitude) / fullDistance;
+                    resultValue += (float)measure.Value * GetDistance(station.Latitude, station.Longitude, latitude, longitude) / fullDistance;
                 }
             }
 
@@ -471,13 +466,13 @@ namespace HackstreeetServer.src.Services
         }
 
 
-        private async Task<List<Station>> GetClosestStationsWithFilter(string filter, float latitude, float longitude,int maxClosestPoints)
+        private List<Station> GetClosestStationsWithFilter(string filter, float latitude, float longitude,int maxClosestPoints, Station[] stations)
         {
-            var stations = await _measureRepository.GetStationBySensing(filter);
+            var chosen_station = stations.Where(m => m.Measures.Where(m => m.Sensing == filter).Any()).ToArray();
             List<Station> closestStations = new List<Station>(maxClosestPoints);
             List<float> closestDistances = new List<float>(maxClosestPoints);
 
-            foreach (var station in stations)
+            foreach (var station in chosen_station)
             {
                 var distance = GetDistance(latitude, longitude, station.Latitude, station.Longitude);
 
