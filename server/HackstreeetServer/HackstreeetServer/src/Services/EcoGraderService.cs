@@ -418,12 +418,20 @@ namespace HackstreeetServer.src.Services
             float fullDistance = 0;
             foreach (var station in closestStations)
             {
-                fullDistance += GetDistance(station.Latitude,station.Longitude,latitude,longitude);
+                var measures = await _measureRepository.GetMeasureBySensingAndStationID(filter, station.Id);
+                if (measures != null)
+                {
+                    fullDistance += GetDistance(station.Latitude, station.Longitude, latitude, longitude);
+                }
             }
             float resultValue=0;
             foreach (var station in closestStations)
             {
-                resultValue += (float)station.Measures.FirstOrDefault().Value * GetDistance(station.Latitude, station.Longitude, latitude, longitude)/fullDistance;
+                var measures = await _measureRepository.GetMeasureBySensingAndStationID(filter, station.Id);
+                if (measures != null)
+                {
+                    resultValue += (float)measures[0].Value * GetDistance(station.Latitude, station.Longitude, latitude, longitude) / fullDistance;
+                }
             }
 
             return resultValue;
