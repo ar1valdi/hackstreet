@@ -19,7 +19,7 @@ namespace HackstreeetServer.src.Handlers.GetWeatherHandler
             {
                 Latitude = request.Lat,
                 Longitude = request.Lon,
-                AirScore = (float)random.NextDouble() * 10,
+                AirScore = FilterGrade(lon),
                 SoundScore = (float)random.NextDouble() * 10
             };
             details.CalculateOverallScore();
