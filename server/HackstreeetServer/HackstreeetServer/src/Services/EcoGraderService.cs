@@ -376,7 +376,25 @@ namespace HackstreeetServer.src.Services
                     }
                 case "światło":
                     {
-                        break;
+                        float meanLigthValue = await GradePointOneFilter(latitude, longitude, "poziom światła");
+                        float LigthGrade;
+
+                        if (meanLigthValue < 0.5)
+                        {
+                            LigthGrade = 100;
+                        }
+                        else if (meanLigthValue < 8)
+                        {
+                            LigthGrade = (8 - meanLigthValue) / (float)7.5 * 100;
+                        }
+                        else
+                        {
+                            LigthGrade = 0;
+                        }
+
+
+
+                        return LigthGrade;
                     }
                 case "piece":
                     {
