@@ -313,36 +313,60 @@ namespace HackstreeetServer.src.Services
             return -1;
         }
 
-        public async Task<EcoDetails[]> GetAllDetails(float startLat, float startLon, float endLat, float endLon, float deltaLat, float deltaLon)
+        public async Task<EcoDetailMapField[]> GetAllDetails(float startLat, float startLon, float endLat, float endLon, float deltaLat, float deltaLon, string[] categoryFilter)
         {
             int recordsNumLat = (int)((endLat - startLat)/deltaLat) + 1;
             int recordsNumLon = (int)((endLon - startLon)/deltaLon) + 1;
             int len = recordsNumLat * recordsNumLon;
 
-            EcoDetails[] details = new EcoDetails[len];
+            EcoDetailMapField[] details = new EcoDetailMapField[len];
             var measures = await _measureRepository.GetAllStationsWithMeasures();
 
             int iter = 0;
             for (float i = startLat; i < endLat; i += deltaLat)
             {
-                for (float j = startLat; j < endLon; j += deltaLon)
+                for (float j = startLon; j < endLon; j += deltaLon)
                 {
-                    EcoDetails newDetail = new EcoDetails
-                    {
-                        Latitude = i,
-                        Longitude = j,
-                        AirScore = await FilterGrade(i, j, "powietrze", measures),
-                        SoundScore = await FilterGrade(i, j, "hałas", measures),
-                        WaterScore = await FilterGrade(i, j, "woda", measures),
-                        LightScore = await FilterGrade(i, j, "światło", measures)
-                    };
-                    newDetail.CalculateOverallScore();
+                    float finalResult = 0;
+                    float? AirScore = categoryFilter.Contains("powietrze") ? await FilterGrade(i, j, "powietrze", measures) : null;
+                    float? SoundScore = categoryFilter.Contains("hałas") ? await FilterGrade(i, j, "hałas", measures) : null;
+                    float? WaterScore = categoryFilter.Contains("woda") ? await FilterGrade(i, j, "woda", measures) : null;
+                    float? LightScore = categoryFilter.Contains("światło") ? await FilterGrade(i, j, "światło", measures) : null;
 
-                    details[iter++] = newDetail;
+                    if (categoryFilter.Length > 1)
+                    {
+                        int cnt = 0;
+                        float avg = 0;
+
+                        UpdateAvg(ref cnt, ref avg, SoundScore);
+                        UpdateAvg(ref cnt, ref avg, AirScore);
+                        UpdateAvg(ref cnt, ref avg, WaterScore);
+                        UpdateAvg(ref cnt, ref avg, LightScore);
+
+                        finalResult = avg / (float)cnt;
+                    } 
+                    else
+                    {
+                        if (categoryFilter[0] == "powietrze") finalResult = (float)AirScore;
+                        else if (categoryFilter[0] == "hałas") finalResult = (float)SoundScore;
+                        else if (categoryFilter[0] == "woda") finalResult = (float)WaterScore;
+                        else if (categoryFilter[0] == "światło") finalResult = (float)LightScore;
+                    }
+
+                    details[iter++] = new EcoDetailMapField { Latitude = i, Longitude = j, Value = finalResult };
                 }
             }
 
             return details;
+        }
+
+        private void UpdateAvg(ref int cnt, ref float sum, float? x)
+        {
+            if (x != null)
+            {
+                sum += (float)x;
+                cnt += 1;
+            }
         }
 
         public float GradePointOneFilter(float latitude, float longitude, string filter, Station[] stations)

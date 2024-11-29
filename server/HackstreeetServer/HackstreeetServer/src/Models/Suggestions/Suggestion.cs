@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace HackstreeetServer.src.Models.Suggestions
 {
@@ -36,6 +37,7 @@ namespace HackstreeetServer.src.Models.Suggestions
         [NotMapped]
         public int Downvotes { get; set; }
         [NotMapped]
-        public List<Vote> Votes { get; set; }
+        [JsonIgnore]
+        public List<Vote>? Votes { get; set; }
     }
 }
