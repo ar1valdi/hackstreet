@@ -1,5 +1,6 @@
 ﻿using HackstreeetServer.src.Models.Measures;
 using HackstreeetServer.src.Repositories;
+using System.Xml.Serialization;
 
 namespace HackstreeetServer.src.Services
 {
@@ -205,7 +206,151 @@ namespace HackstreeetServer.src.Services
                     }
                 case "woda":
                     {
-                        break;
+                        float meanHardnessValue = await GradePointOneFilter(latitude, longitude, "Twardość - mg/l");
+                        float HardnessGrade;
+
+                        if (meanHardnessValue < 60)
+                        {
+                            HardnessGrade = 100;
+                        }
+                        else if (meanHardnessValue < 100)
+                        {
+                            HardnessGrade = 80;
+                        }
+                        else if (meanHardnessValue < 200)
+                        {
+                            HardnessGrade = 60;
+                        }
+                        else if (meanHardnessValue < 400)
+                        {
+                            HardnessGrade = 40;
+                        }
+                        else if (meanHardnessValue < 600)
+                        {
+                            HardnessGrade = 20;
+                        }
+                        else
+                        {
+                            HardnessGrade = 0;
+                        }
+
+
+                        float meanPHValue = await GradePointOneFilter(latitude, longitude, "pH");
+                        float PHGrade;
+
+                        if (Math.Abs(meanPHValue-8) < 0.5)
+                        {
+                            PHGrade = 100;
+                        }
+                        else if (Math.Abs(meanPHValue - 8) < 0.7)
+                        {
+                            PHGrade = 80;
+                        }
+                        else if (Math.Abs(meanPHValue - 8) < 0.9)
+                        {
+                            PHGrade = 60;
+                        }
+                        else if (Math.Abs(meanPHValue - 8) < 1.2)
+                        {
+                            PHGrade = 40;
+                        }
+                        else if (Math.Abs(meanPHValue - 8) < 1.5)
+                        {
+                            PHGrade = 20;
+                        }
+                        else
+                        {
+                            PHGrade = 0;
+                        }
+
+
+                        float meanSodiumValue = await GradePointOneFilter(latitude, longitude, "Sód");
+                        float SodiumGrade;
+
+                        if (Math.Abs(meanSodiumValue - 150) < 20)
+                        {
+                            SodiumGrade = 100;
+                        }
+                        else if (Math.Abs(meanSodiumValue - 150) < 50)
+                        {
+                            SodiumGrade = 50;
+                        }
+                        else
+                        {
+                            SodiumGrade = 0;
+                        }
+
+
+
+                        float meanChloriumValue = await GradePointOneFilter(latitude, longitude, "Chlorki");
+                        float ChloriumGrade;
+
+                        if (meanChloriumValue < 250)
+                        {
+                            ChloriumGrade = 100;
+                        }
+                        else
+                        {
+                            ChloriumGrade = 0;
+                        }
+
+
+                        float meanFluoriumValue = await GradePointOneFilter(latitude, longitude, "Fluorki");
+                        float FluoriumGrade;
+
+                        if (meanFluoriumValue < 1.5)
+                        {
+                            FluoriumGrade = 100;
+                        }
+                        else
+                        {
+                            FluoriumGrade = 0;
+                        }
+
+
+                        float meanSulfurValue = await GradePointOneFilter(latitude, longitude, "Siarczany");
+                        float SulfurGrade;
+
+                        if (meanSulfurValue < 250)
+                        {
+                            SulfurGrade = 100;
+                        }
+                        else
+                        {
+                            SulfurGrade = 0;
+                        }
+
+                        float meanHFValue = await GradePointOneFilter(latitude, longitude, "Wodorowęglany");
+                        float HFGrade;
+
+                        if (meanHFValue < 600)
+                        {
+                            HFGrade = 100;
+                        }
+                        else if (meanHFValue < 1000)
+                        {
+                            HFGrade = 20;
+                        }
+                        else
+                        {
+                            HFGrade = 0;
+                        }
+
+                        float meanClValue = await GradePointOneFilter(latitude, longitude, "Chlor wolny");
+                        float ClGrade;
+
+                        if (meanClValue < 0.3)
+                        {
+                            ClGrade = 100;
+                        }
+                        else
+                        {
+                            ClGrade = 0;
+                        }
+
+                        float result = (HardnessGrade + PHGrade + SodiumGrade + ChloriumGrade + FluoriumGrade + SulfurGrade + HFGrade+ClGrade) / 8;
+
+                        return result;
                     }
                 case "hałas":
                     {
