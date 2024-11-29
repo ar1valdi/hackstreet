@@ -21,14 +21,32 @@ namespace HackstreeetServer.src.Repositories
             _context.SaveChanges();
         }
 
-        public Task<Suggestion[]> GetAllSuggetsions()
+        public async Task<Suggestion[]> GetAllSuggetsions()
         {
-            return _context.Set<Suggestion>().ToArrayAsync();
+            var arr = await _context.Set<Suggestion>().ToArrayAsync();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i].Upvotes = GetVotesCount(arr[i].Id, 'u');
+                arr[i].Downvotes = GetVotesCount(arr[i].Id, 'd');
+            }
+            return arr;
         }
 
-        public Task<Suggestion?> GetSuggestionById(Guid id)
+        private int GetVotesCount(Guid id, char val)
         {
-            return _context.Set<Suggestion>().Where(x => x.Id == id).FirstOrDefaultAsync();
+            return _context.Set<Vote>().Where(v => v.SuggestionId == id && v.Value == val).Count();
+        }
+
+        public async Task<Suggestion?> GetSuggestionById(Guid id)
+        {
+            var v = await _context.Set<Suggestion>().Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (v == null)
+            {
+                return v;
+            }
+            v.Upvotes = GetVotesCount(v.Id, 'u');
+            v.Downvotes = GetVotesCount(v.Id, 'd');
+            return v;
         }
 
         public void RemoveSuggestion(Guid id)
@@ -64,6 +82,34 @@ namespace HackstreeetServer.src.Repositories
             entity.SoundImprovement = newSuggestion.SoundImprovement;
             entity.LightImprovement = newSuggestion.LightImprovement;
             _context.SaveChanges();
+        }
+
+        public void AddVote(Vote vote)
+        {
+            vote.Id = Guid.NewGuid();
+            _context.Set<Vote>().Add(vote);
+            _context.SaveChanges();
+        }
+
+        public void RemoveVote(Guid id)
+        {
+            var entity = _context.Set<Vote>().Where(x => x.Id == id).FirstOrDefault();
+
+            if (entity == null)
+            {
+                throw new ArgumentException("Id does not exist");
+            }
+
+            _context.Set<Vote>().Remove(entity);
+            _context.SaveChanges();
+        }
+
+        public Task<Vote?> GetVoteByEmailAndSuggestion(string email, 
+            Guid suggestionId)
+        {
+            return _context.Set<Vote>()
+                .Where(x => x.Email == email && x.SuggestionId == suggestionId)
+                .FirstOrDefaultAsync();
         }
     }
 }

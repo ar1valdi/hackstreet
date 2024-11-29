@@ -1,4 +1,5 @@
 ﻿using HackstreeetServer.src.Models;
+using HackstreeetServer.src.Repositories;
 using HackstreeetServer.src.Services;
 using MediatR;
 
@@ -13,23 +14,25 @@ namespace HackstreeetServer.src.Handlers.GetWeatherHandler
         : IRequestHandler<GetEcoDetails, EcoDetails>
     {
         private IEcoGraderService _service;
+        private IMeasureRepository _measureRepository;
 
-        public GetEcoDetailsHandler(IEcoGraderService service)
+        public GetEcoDetailsHandler(IEcoGraderService service, IMeasureRepository measureRepository)
         {
             _service = service;
+            _measureRepository = measureRepository;
         }
 
         public async Task<EcoDetails> Handle(GetEcoDetails request, CancellationToken cancellationToken)
         {
-            var random = new Random();
+            var measures = await _measureRepository.GetAllStationsWithMeasures();
             var details = new EcoDetails
             {
                 Latitude = request.Lat,
                 Longitude = request.Lon,
-                AirScore = await _service.FilterGrade(request.Lat, request.Lon, "powietrze"),
-                SoundScore = await _service.FilterGrade(request.Lat, request.Lon, "hałas"),
-                LightScore = await _service.FilterGrade(request.Lat, request.Lon, "światło"),
-                WaterScore = await _service.FilterGrade(request.Lat, request.Lon, "woda"),
+                AirScore = await _service.FilterGrade(request.Lat, request.Lon, "powietrze", measures),
+                SoundScore = await _service.FilterGrade(request.Lat, request.Lon, "hałas", measures),
+                LightScore = await _service.FilterGrade(request.Lat, request.Lon, "światło", measures),
+                WaterScore = await _service.FilterGrade(request.Lat, request.Lon, "woda", measures),
             };
             details.CalculateOverallScore();
             return details;
