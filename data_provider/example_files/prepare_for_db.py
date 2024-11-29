@@ -1,7 +1,9 @@
 import pandas as pd
 import datetime
 
-light_data = pd.read_csv('out_light.csv',sep=";")
+light_data = pd.read_csv('out_noise.csv',sep=";")
+
+#light_data = light_data.sample(n=1000)
 
 
 
