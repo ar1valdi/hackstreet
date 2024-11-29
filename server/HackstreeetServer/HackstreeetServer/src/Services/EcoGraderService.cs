@@ -1,4 +1,5 @@
-﻿using HackstreeetServer.src.Models.Measures;
+﻿using HackstreeetServer.src.Models;
+using HackstreeetServer.src.Models.Measures;
 using HackstreeetServer.src.Repositories;
 using System.Xml.Serialization;
 
@@ -409,6 +410,37 @@ namespace HackstreeetServer.src.Services
 
 
             return -1;
+        }
+
+        public async Task<EcoDetails[]> GetAllDetails(float startLat, float startLon, float endLat, float endLon, float deltaLat, float deltaLon)
+        {
+            int recordsNumLat = (int)((endLat - startLat)/deltaLat) + 1;
+            int recordsNumLon = (int)((endLon - startLon)/deltaLon) + 1;
+            int len = recordsNumLat * recordsNumLon;
+
+            EcoDetails[] details = new EcoDetails[len];
+
+            int iter = 0;
+            for (float i = startLat; i < endLat; i += deltaLat)
+            {
+                for (float j = startLat; j < endLon; j += deltaLon)
+                {
+                    EcoDetails newDetail = new EcoDetails
+                    {
+                        Latitude = i,
+                        Longitude = j,
+                        AirScore = await FilterGrade(i, j, "powietrze"),
+                        SoundScore = await FilterGrade(i, j, "hałas"),
+                        WaterScore = await FilterGrade(i, j, "woda"),
+                        LightScore = await FilterGrade(i, j, "światło")
+                    };
+                    newDetail.CalculateOverallScore();
+
+                    details[iter++] = newDetail;
+                }
+            }
+
+            return details;
         }
 
         public async Task<float> GradePointOneFilter(float latitude, float longitude, string filter)

@@ -17,6 +17,16 @@ builder.Services.AddScoped<IMeasureRepository, MeasureRepository>();
 builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
 builder.Services.AddScoped<IEcoGraderService, EcoGraderService>();
 
+var reactCors = "_reactCors";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: reactCors,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000");
+                      });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(reactCors);
 
 app.UseAuthorization();
 

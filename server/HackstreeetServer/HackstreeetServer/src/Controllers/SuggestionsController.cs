@@ -86,5 +86,19 @@ namespace HackstreeetServer.src.Controllers
             }
             return Ok();
         }
+
+        [HttpPost]
+        [Route("/upvote")]
+        public async Task<IActionResult> Upvote(Guid id, string email)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("/downvote")]
+        public async Task<IActionResult> Downvote(Guid id, string email)
+        {
+            return Ok();
+        }
     }
 }

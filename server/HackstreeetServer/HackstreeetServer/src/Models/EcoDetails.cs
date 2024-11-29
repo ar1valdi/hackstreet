@@ -8,6 +8,7 @@
         public float? SoundScore { get; set; }
         public float? AirScore { get; set; }
         public float? WaterScore { get; set; }
+        public float? LightScore { get; set; }
     
         public void CalculateOverallScore()
         {
@@ -17,6 +18,7 @@
             UpdateAvg(ref cnt, ref avg, SoundScore);
             UpdateAvg(ref cnt, ref avg, AirScore);
             UpdateAvg(ref cnt, ref avg, WaterScore);
+            UpdateAvg(ref cnt, ref avg, LightScore);
 
             OverallScore =  avg / (float)cnt;
         }
