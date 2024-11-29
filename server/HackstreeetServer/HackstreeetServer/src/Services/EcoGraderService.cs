@@ -12,11 +12,24 @@ namespace HackstreeetServer.src.Services
             _measureRepository = measureRepository;
         }
 
-        public int GradePointOneFilter(float latitude, float longitude, string filter)
+        public async Task<float> GradePointOneFilter(float latitude, float longitude, string filter)
         {
-            
-            return 0;
+            var closestStations = await GetClosestStationsWithFilter(filter, latitude, longitude, 4);
+
+            float fullDistance = 0;
+            foreach (var station in closestStations)
+            {
+                fullDistance += GetDistance(station.Latitude,station.Longitude,latitude,longitude);
+            }
+            float resultValue=0;
+            foreach (var station in closestStations)
+            {
+                resultValue += (float)station.Measures.FirstOrDefault().Value * GetDistance(station.Latitude, station.Longitude, latitude, longitude)/fullDistance;
+            }
+
+            return resultValue;
         }
+
 
         private async Task<List<Station>> GetClosestStationsWithFilter(string filter, float latitude, float longitude,int maxClosestPoints)
         {
