@@ -15,14 +15,14 @@ df_outlughts['category'] = ['światło' for i in range(light_data.shape[0])]
 
 df_outlughts.to_csv('lights.csv',sep=";",index=False,header=False)
 
-# df_outstations = pd.DataFrame(columns=['id','latitude','longitude','station_type'])
+df_outstations = pd.DataFrame(columns=['id','latitude','longitude','station_type'])
 
-# df_outstations['id'] = light_data['id']
-# df_outstations['latitude'] = light_data['lat']
-# df_outstations['longitude'] = light_data['lon']
-# df_outstations['station_type'] = light_data['station_type']
+df_outstations['id'] = light_data['id']
+df_outstations['latitude'] = light_data['lon']
+df_outstations['longitude'] = light_data['lat']
+df_outstations['station_type'] = light_data['station_type']
 
-# df_outstations.to_csv('stations.csv',sep=";",index=False,header=False)
+df_outstations.to_csv('stations_lights.csv',sep=";",index=False,header=False)
 
 
 
