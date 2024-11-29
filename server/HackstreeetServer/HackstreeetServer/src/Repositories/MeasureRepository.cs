@@ -12,14 +12,24 @@ namespace HackstreeetServer.src.Repositories
             _context = new GreenLifeDbContext();
         }
 
-        public async Task<Measure[]> GetAllMeasures()
+        public Task<Measure[]> GetAllMeasures()
         {
-            return await _context.Set<Measure>().ToArrayAsync();
+            return _context.Set<Measure>().ToArrayAsync();
         }
 
-        public async Task<Station[]> GetAllStations()
+        public Task<Station[]> GetAllStations()
         {
-            return await _context.Set<Station>().ToArrayAsync();
+            return _context.Set<Station>().ToArrayAsync();
+        }
+
+        public Task<Measure[]> GetMeasureBySensing(string sensing)
+        {
+            return _context.Set<Measure>().Where(s => s.Sensing == sensing).ToArrayAsync();
+        }
+
+        public Task<Station[]> GetStationBySensing(string sensing)
+        {
+            return _context.Set<Station>().Where(s => s.Measures.Where(m => m.Sensing == sensing).Any()).ToArrayAsync();
         }
     }
 }
