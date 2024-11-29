@@ -12,7 +12,7 @@ namespace HackstreeetServer.src.Models.Suggestions
         [Column("latitude")]
         public float Latitude { get; set; }
         [Column("title")]
-        public float Title { get; set; }
+        public string Title { get; set; }
         [Column("longitude")]
         public float Longitude { get; set; }
         [Column("description")]
