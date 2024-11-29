@@ -87,7 +87,8 @@ class Measure:
             "value": value,
             "min_value": None,
             "max_value": None,
-            "sensing": sensing
+            "sensing": sensing,
+            "category": 'powietrze'
         }
 
 
@@ -139,8 +140,10 @@ class DataProvider:
                 measure_date = measure[1]['date']
                 measure_val = measure[1]['value']
 
-                measures.append(Measure(station_id=sensor.station.id, date=measure_date, value=measure_val, sensing=sensor.sensing))
-
+                if measure_val is not None:
+                    measures.append(Measure(station_id=sensor.station.id, date=measure_date, value=measure_val, sensing=sensor.sensing))
+                    break
+                
         return measures
 
     def save_to_csv(self):

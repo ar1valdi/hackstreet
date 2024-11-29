@@ -23,164 +23,69 @@ namespace HackstreeetServer.src.Services
                         float meanNO2Value = GradePointOneFilter(latitude, longitude, "dwutlenek azotu", airOnly);
                         float NO2Grade;
 
-                        if (meanNO2Value < 40)
+
+                        if (meanNO2Value < 20)
                         {
                             NO2Grade = 100;
-                        }else if (meanNO2Value < 100)
-                        {
-                            NO2Grade = 80;
-                        }
-                        else if (meanNO2Value < 150)
-                        {
-                            NO2Grade = 60;
-                        }
-                        else if (meanNO2Value < 230)
-                        {
-                            NO2Grade = 40;
-                        }
-                        else if (meanNO2Value < 400)
-                        {
-                            NO2Grade = 20;
-                        }
-                        else
-                        {
+                        } else if(meanNO2Value > 400) {
                             NO2Grade = 0;
                         }
-
-                        float meanBenzinValue = GradePointOneFilter(latitude, longitude, "benzen", airOnly);
-                        float BenzinGrade;
-
-                        if (meanBenzinValue < 40)
-                        {
-                            BenzinGrade = 100;
+                        else {
+                            NO2Grade = (400 - meanNO2Value) / 380 * 100;
                         }
-                        else if (meanBenzinValue < 100)
-                        {
-                            BenzinGrade = 80;
-                        }
-                        else if (meanBenzinValue < 150)
-                        {
-                            BenzinGrade = 60;
-                        }
-                        else if (meanBenzinValue < 230)
-                        {
-                            BenzinGrade = 40;
-                        }
-                        else if (meanBenzinValue < 400)
-                        {
-                            BenzinGrade = 20;
-                        }
-                        else
-                        {
-                            BenzinGrade = 0;
-                        }
+                        
                         float meanSO2Value = GradePointOneFilter(latitude, longitude, "dwutlenek siarki", airOnly);
                         float SO2Grade;
 
-                        if (meanSO2Value < 50)
+                        if (meanSO2Value < 20)
                         {
                             SO2Grade = 100;
-                        }
-                        else if (meanSO2Value < 100)
-                        {
-                            SO2Grade = 80;
-                        }
-                        else if (meanSO2Value < 200)
-                        {
-                            SO2Grade = 60;
-                        }
-                        else if (meanSO2Value < 350)
-                        {
-                            SO2Grade = 40;
-                        }
-                        else if (meanSO2Value < 500)
-                        {
-                            SO2Grade = 20;
-                        }
-                        else
-                        {
+                        } else if(meanSO2Value > 500) {
                             SO2Grade = 0;
                         }
+                        else {
+                            SO2Grade = (500 - meanSO2Value) / 480 * 100;
+                        }
+
                         float meanO3Value = GradePointOneFilter(latitude, longitude, "ozon", airOnly);
                         float O3Grade;
 
-                        if (meanO3Value < 70)
+                        if (meanO3Value < 30)
                         {
                             O3Grade = 100;
-                        }
-                        else if (meanO3Value < 120)
-                        {
-                            O3Grade = 80;
-                        }
-                        else if (meanO3Value < 150)
-                        {
-                            O3Grade = 60;
-                        }
-                        else if (meanO3Value < 180)
-                        {
-                            O3Grade = 40;
-                        }
-                        else if (meanO3Value < 240)
-                        {
-                            O3Grade = 20;
-                        }
-                        else
-                        {
+                        } else if (meanO3Value > 240) {
                             O3Grade = 0;
+                        }
+                        else {
+                            O3Grade = (240 - meanO3Value) / 210 * 100;
                         }
                         float meanPM10Value = GradePointOneFilter(latitude, longitude, "pył zawieszony PM10", airOnly);
                         float PM10Grade;
 
-                        if (meanPM10Value < 20)
+                        if (meanPM10Value < 10)
                         {
                             PM10Grade = 100;
                         }
-                        else if (meanPM10Value < 50)
-                        {
-                            PM10Grade = 80;
-                        }
-                        else if (meanPM10Value < 80)
-                        {
-                            PM10Grade = 60;
-                        }
-                        else if (meanPM10Value < 110)
-                        {
-                            PM10Grade = 40;
-                        }
-                        else if (meanPM10Value < 150)
-                        {
-                            PM10Grade = 20;
-                        }
-                        else
+                        else if (meanPM10Value > 150)
                         {
                             PM10Grade = 0;
+                        }
+                        else {
+                            PM10Grade = (150 - meanPM10Value) / 140 * 100;
                         }
                         float meanPM25Value = GradePointOneFilter(latitude, longitude, "pył zawieszony PM2.5", airOnly);
                         float PM25Grade;
 
-                        if (meanPM25Value < 13)
+                        if (meanPM25Value < 10)
                         {
                             PM25Grade = 100;
                         }
-                        else if (meanPM25Value < 35)
-                        {
-                            PM25Grade = 80;
-                        }
-                        else if (meanPM25Value < 55)
-                        {
-                            PM25Grade = 60;
-                        }
-                        else if (meanPM25Value < 75)
-                        {
-                            PM25Grade = 40;
-                        }
-                        else if (meanPM25Value < 110)
-                        {
-                            PM25Grade = 20;
-                        }
-                        else
+                        else if (meanPM25Value > 110)
                         {
                             PM25Grade = 0;
+                        }
+                        else {
+                            PM25Grade = (110 - meanPM25Value) / 100 * 100;
                         }
                         float meanCOValue = GradePointOneFilter(latitude, longitude, "tlenek węgla", airOnly);
                         float COGrade;

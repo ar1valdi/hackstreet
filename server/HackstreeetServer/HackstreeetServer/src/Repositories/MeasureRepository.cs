@@ -37,7 +37,7 @@ namespace HackstreeetServer.src.Repositories
         }
         public Task<Measure[]> GetMeasureBySensingAndStationID(string sensing,long stationID)
         {
-            return _context.Set<Measure>().Where(s => (s.Sensing == sensing && s.StationId == stationID)).ToArrayAsync();
+            return _context.Set<Measure>().Where(s => s.Sensing == sensing && s.StationId == stationID).ToArrayAsync();
         }
     }
 }
