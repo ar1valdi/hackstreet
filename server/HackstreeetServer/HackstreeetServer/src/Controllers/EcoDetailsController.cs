@@ -40,7 +40,7 @@ namespace HackstreeetServer.src.Controllers
             float startLon = 18.48f;
             float endLat = 54.43f;
             float endLon = 18.82f;
-            return ecoGraderService.GetAllDetails(startLat, startLon, endLat, endLon, startLat, dLon, [str]);
+            return ecoGraderService.GetAllDetails(startLat, startLon, endLat, endLon, dLat, dLon, [str]);
         }
     }
 }
