@@ -16,6 +16,8 @@ namespace HackstreeetServer.src.Services
 
         public async Task<float> FilterGrade(float latitude, float longitude, string categoryFilter)
         {
+            var measures = await _measureRepository.GetAllStationsWithMeasures();
+
             switch (categoryFilter)
             {
                 case "powietrze":

@@ -11,7 +11,7 @@ namespace HackstreeetServer.src.Models.Suggestions
         public Guid Id { get; set; }
         [Column("latitude")]
         public float Latitude { get; set; }
-        [Column("Title")]
+        [Column("title")]
         public float Title { get; set; }
         [Column("longitude")]
         public float Longitude { get; set; }
@@ -31,9 +31,9 @@ namespace HackstreeetServer.src.Models.Suggestions
         public float? SoundImprovement { get; set; }
         [Column("light_improvement")]
         public float? LightImprovement { get; set; }
-        [Column("Upvotes")]
+        [Column("upvotes")]
         public int Upvotes { get; set; }
-        [Column("Downvotes")]
+        [Column("downvotes")]
         public int Downvotes { get; set; }
     }
 }

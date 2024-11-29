@@ -21,6 +21,10 @@ namespace HackstreeetServer.src.Repositories
         {
             return _context.Set<Station>().ToArrayAsync();
         }
+        public Task<Station[]> GetAllStationsWithMeasures()
+        {
+            return _context.Set<Station>().Include(s => s.Measures).ToArrayAsync();
+        }
 
         public Task<Measure[]> GetMeasureBySensing(string sensing)
         {
