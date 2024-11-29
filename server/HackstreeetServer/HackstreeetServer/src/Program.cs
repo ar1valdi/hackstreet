@@ -1,5 +1,6 @@
 using HackstreeetServer.src.Repositories;
 using HackstreeetServer.src.Repositories.Interfaces;
+using HackstreeetServer.src.Services;
 using System.Net.NetworkInformation;
 using System.Reflection;
 
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddScoped<IMeasureRepository, MeasureRepository>();
 builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
+builder.Services.AddScoped<IEcoGraderService, EcoGraderService>();
 
 var app = builder.Build();
 

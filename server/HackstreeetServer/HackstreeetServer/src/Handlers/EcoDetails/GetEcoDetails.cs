@@ -1,4 +1,5 @@
 ﻿using HackstreeetServer.src.Models;
+using HackstreeetServer.src.Services;
 using MediatR;
 
 namespace HackstreeetServer.src.Handlers.GetWeatherHandler
@@ -11,19 +12,25 @@ namespace HackstreeetServer.src.Handlers.GetWeatherHandler
     public class GetEcoDetailsHandler
         : IRequestHandler<GetEcoDetails, EcoDetails>
     {
+        private IEcoGraderService _service;
 
-        public Task<EcoDetails> Handle(GetEcoDetails request, CancellationToken cancellationToken)
+        public GetEcoDetailsHandler(IEcoGraderService service)
+        {
+            _service = service;
+        }
+
+        public async Task<EcoDetails> Handle(GetEcoDetails request, CancellationToken cancellationToken)
         {
             var random = new Random();
             var details = new EcoDetails
             {
                 Latitude = request.Lat,
                 Longitude = request.Lon,
-                AirScore = FilterGrade(lon),
+                AirScore = await _service.FilterGrade(request.Lat, request.Lon, ""),
                 SoundScore = (float)random.NextDouble() * 10
             };
             details.CalculateOverallScore();
-            return Task.FromResult(details);
+            return details;
         }
     }
 }

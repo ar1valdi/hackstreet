@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace HackstreeetServer.src.Services
 {
-    public class EcoGraderService
+    public class EcoGraderService : IEcoGraderService
     {
         IMeasureRepository _measureRepository;
 
