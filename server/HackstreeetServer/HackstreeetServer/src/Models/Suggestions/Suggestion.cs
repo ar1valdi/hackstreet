@@ -31,9 +31,11 @@ namespace HackstreeetServer.src.Models.Suggestions
         public float? SoundImprovement { get; set; }
         [Column("light_improvement")]
         public float? LightImprovement { get; set; }
-        [Column("upvotes")]
+        [NotMapped]
         public int Upvotes { get; set; }
-        [Column("downvotes")]
+        [NotMapped]
         public int Downvotes { get; set; }
+        [NotMapped]
+        public List<Vote> Votes { get; set; }
     }
 }

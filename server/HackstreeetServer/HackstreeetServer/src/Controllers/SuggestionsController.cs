@@ -1,5 +1,4 @@
 ﻿using HackstreeetServer.src.Handlers.Suggestions;
-using HackstreeetServer.src.Models;
 using HackstreeetServer.src.Models.Suggestions;
 using HackstreeetServer.src.Repositories.Interfaces;
 using MediatR;
@@ -91,6 +90,31 @@ namespace HackstreeetServer.src.Controllers
         [Route("/upvote")]
         public async Task<IActionResult> Upvote(Guid id, string email)
         {
+            var sug = await _repo.GetSuggestionById(id);
+            if (sug == null)
+            {
+                return NotFound();
+            }
+
+            var curr_vote = await _repo.GetVoteByEmailAndSuggestion(email, id);
+            if (curr_vote != null)
+            {
+                if (curr_vote.Value == 'u')
+                {
+                    return Ok();
+                }
+                _repo.RemoveVote(id);
+            }
+
+            var vote = new Vote
+            {
+                Email = email,
+                Suggestion = sug,
+                SuggestionId = id,
+                Value = 'u'
+            };
+            _repo.AddVote(vote);
+            
             return Ok();
         }
 
@@ -98,6 +122,31 @@ namespace HackstreeetServer.src.Controllers
         [Route("/downvote")]
         public async Task<IActionResult> Downvote(Guid id, string email)
         {
+            var sug = await _repo.GetSuggestionById(id);
+            if (sug == null)
+            {
+                return NotFound();
+            }
+
+            var curr_vote = await _repo.GetVoteByEmailAndSuggestion(email, id);
+            if (curr_vote != null)
+            {
+                if (curr_vote.Value == 'd')
+                {
+                    return Ok();
+                }
+                _repo.RemoveVote(id);
+            }
+
+            var vote = new Vote
+            {
+                Email = email,
+                Suggestion = sug,
+                SuggestionId = id,
+                Value = 'd'
+            };
+            _repo.AddVote(vote);
+
             return Ok();
         }
     }
