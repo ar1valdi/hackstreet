@@ -58,6 +58,9 @@ with ThreadPoolExecutor(max_workers=50) as executor:
         except Exception as e:
             print(f"Error getting data: {e}")
             #results.append([id,lat,lon,x,y,None,None,2])
+        if(i % 10000 == 0 or i  == 59900):
+            df = pd.DataFrame(results,columns=['id','lat','lon','x','y','min_db','max_db','station_type'])
+            df.to_csv("out_noise.csv",sep=';')
         i += 1
         id+=1
         
