@@ -17,11 +17,6 @@ namespace HackstreeetServer.src.Repositories
             return await _context.Set<Measure>().ToArrayAsync();
         }
 
-        public async Task<Sensor[]> GetAllSensors()
-        {
-            return await _context.Set<Sensor>().ToArrayAsync();
-        }
-
         public async Task<Station[]> GetAllStations()
         {
             return await _context.Set<Station>().ToArrayAsync();
