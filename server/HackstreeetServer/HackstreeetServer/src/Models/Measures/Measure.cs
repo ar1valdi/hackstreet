@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HackstreeetServer.src.Models.Measures
 {
+    [PrimaryKey(nameof(Date), nameof(StationId), nameof(Sensing), nameof(Category))]
     [Table("measures")]
     public class Measure
     {
-        [Key]
         [Column("date")]
         public DateTime Date { get; set; }
         public Station Station { get; set; }
