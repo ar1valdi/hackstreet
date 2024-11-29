@@ -34,13 +34,21 @@ namespace HackstreeetServer.src.Controllers
 
         [HttpPost]
         [Route("map")]
-        public Task<EcoDetailMapField[]> GetGetAllDetails(string[] categoryFilter, float deltaLat=0.1f, float deltaLon=0.1f)
+        public Task<EcoDetailMapField[]> GetGetAllDetails(req r)
         {
             float startLat = 54.30f;
             float startLon = 18.48f;
             float endLat = 54.43f;
             float endLon = 18.82f;
-            return ecoGraderService.GetAllDetails(startLat, startLon, endLat, endLon, deltaLat, deltaLon, categoryFilter);
+            return ecoGraderService.GetAllDetails(startLat, startLon, endLat, endLon, r.dLat, r.dLon, r.categoryFilter);
         }
     }
+}
+
+
+public class req
+{
+    public string[] categoryFilter { get; set; }
+    public float dLat { get; set; }
+    public float dLon { get; set; }
 }
