@@ -41,8 +41,8 @@ namespace HackstreeetServer.src.Controllers
             return Ok(s);
         }
 
-        [HttpPost]
-        [Route("add")]
+        [HttpGet]
+        [Route("add/{latitude}/{longitude}/{title}/{description}/{downgrades}/{duration}/{water}/{air}/{sound}/{light}")]
         public async Task<IActionResult> Add(Suggestion newSuggestion)
         {
             try
@@ -71,7 +71,7 @@ namespace HackstreeetServer.src.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpGet]
         [Route("remove/{id}")]
         public async Task<IActionResult> Remove(Guid id)
         {
@@ -87,7 +87,7 @@ namespace HackstreeetServer.src.Controllers
         }
 
         [HttpPost]
-        [Route("/upvote")]
+        [Route("/upvote/{id}/{email}")]
         public async Task<IActionResult> Upvote(Guid id, string email)
         {
             var sug = await _repo.GetSuggestionById(id);
@@ -118,8 +118,8 @@ namespace HackstreeetServer.src.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        [Route("/downvote")]
+        [HttpGet]
+        [Route("/downvote/{id}/{email}")]
         public async Task<IActionResult> Downvote(Guid id, string email)
         {
             var sug = await _repo.GetSuggestionById(id);

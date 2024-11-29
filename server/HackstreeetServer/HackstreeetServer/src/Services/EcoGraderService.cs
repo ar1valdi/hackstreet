@@ -319,7 +319,7 @@ namespace HackstreeetServer.src.Services
             int recordsNumLon = (int)((endLon - startLon)/deltaLon) + 1;
             int len = recordsNumLat * recordsNumLon;
 
-            EcoDetailMapField[] details = new EcoDetailMapField[len];
+            List<EcoDetailMapField> details = new List<EcoDetailMapField>();
             var measures = await _measureRepository.GetAllStationsWithMeasures();
 
             int iter = 0;
@@ -359,7 +359,7 @@ namespace HackstreeetServer.src.Services
                 }
             }
 
-            return details;
+            return details.ToArray();
         }
 
         private void UpdateAvg(ref int cnt, ref float sum, float? x)
