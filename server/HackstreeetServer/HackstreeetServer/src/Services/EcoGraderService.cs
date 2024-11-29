@@ -354,7 +354,25 @@ namespace HackstreeetServer.src.Services
                     }
                 case "hałas":
                     {
-                        break;
+                        float meanNoiseValue = await GradePointOneFilter(latitude, longitude, "poziom hałasu");
+                        float NoiseGrade;
+
+                        if (meanNoiseValue < 50)
+                        {
+                            NoiseGrade = 100;
+                        }
+                        else if(meanNoiseValue < 120)
+                        {
+                            NoiseGrade = (120 - meanNoiseValue) / 70 * 100;
+                        }
+                        else
+                        {
+                            NoiseGrade = 0;
+                        }
+
+
+
+                        return NoiseGrade;
                     }
                 case "światło":
                     {
