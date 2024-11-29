@@ -323,9 +323,11 @@ namespace HackstreeetServer.src.Services
             var measures = await _measureRepository.GetAllStationsWithMeasures();
 
             int iter = 0;
-            for (float i = startLat; i < endLat; i += deltaLat)
+            float currentLat = startLat;
+            float currentLon = startLon;
+            for (float i = 0; i < recordsNumLat; i++, currentLat += deltaLat)
             {
-                for (float j = startLon; j < endLon; j += deltaLon)
+                for (float j = 0; j < recordsNumLon; j++, currentLon += deltaLon)
                 {
                     float finalResult = 0;
                     float? AirScore = categoryFilter.Contains("powietrze") ? await FilterGrade(i, j, "powietrze", measures) : null;
@@ -353,7 +355,7 @@ namespace HackstreeetServer.src.Services
                         else if (categoryFilter[0] == "światło") finalResult = (float)LightScore;
                     }
 
-                    details[iter++] = new EcoDetailMapField { Latitude = i, Longitude = j, Value = finalResult };
+                    details[iter++] = new EcoDetailMapField { Latitude = currentLat, Longitude = currentLon, Value = finalResult };
                 }
             }
 
