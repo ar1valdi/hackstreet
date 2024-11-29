@@ -1,11 +1,16 @@
 import pandas as pd
 import datetime
+import random
 
 light_data = pd.read_csv('out_noise.csv',sep=";")
 
 
 
-df_outlughts = pd.DataFrame(columns=['date','station_id','value'])
+light_data = light_data.sample(n=1000)
+
+
+
+df_outlughts = pd.DataFrame(columns=['date','station_id','value','min_value','max_value','sensing','category'],)
 
 df_outlughts['date'] = ['2024-11-26 00:00:00' for i in range(light_data.shape[0])]
 df_outlughts['station_id'] = light_data['id']
