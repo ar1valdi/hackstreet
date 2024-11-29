@@ -408,7 +408,7 @@ namespace HackstreeetServer.src.Services
 
 
 
-            return resultValue;
+            return -1;
         }
 
         public async Task<float> GradePointOneFilter(float latitude, float longitude, string filter)
