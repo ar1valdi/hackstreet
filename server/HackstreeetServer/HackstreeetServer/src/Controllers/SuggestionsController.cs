@@ -43,11 +43,25 @@ namespace HackstreeetServer.src.Controllers
 
         [HttpGet]
         [Route("add/{latitude}/{longitude}/{title}/{description}/{downgrades}/{duration}/{water}/{air}/{sound}/{light}")]
-        public async Task<IActionResult> Add(Suggestion newSuggestion)
+        public async Task<IActionResult> Add(float latitude, float longitude, string title, string description, string downgrades, int duration, float water, float air, float sound, float light)
         {
+            Suggestion suggestion = new Suggestion
+            {
+                Latitude = latitude,
+                Longitude = longitude,
+                Title = title,
+                Description = description,
+                Downgrades = downgrades,
+                Duration = duration,
+                WaterImprovement = water,
+                AirImprovement = air,
+                SoundImprovement = sound,
+                LightImprovement = light
+            };
+
             try
             {
-                _repo.AddSuggestion(newSuggestion);
+                _repo.AddSuggestion(suggestion);
             }
             catch (ArgumentException ex)
             {
