@@ -15,8 +15,6 @@
             int cnt = 0;
             float avg = 0;
 
-
-            
             UpdateAvg(ref cnt, ref avg, SoundScore);
             UpdateAvg(ref cnt, ref avg, AirScore);
             UpdateAvg(ref cnt, ref avg, WaterScore);

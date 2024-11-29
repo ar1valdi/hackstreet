@@ -13,10 +13,8 @@ namespace HackstreeetServer.src.Services
             _measureRepository = measureRepository;
         }
 
-        public async Task<float> FilterGrade(float latitude, float longitude, string categoryFilter)
+        public async Task<float> FilterGrade(float latitude, float longitude, string categoryFilter, Station[] measures)
         {
-            var measures = await _measureRepository.GetAllStationsWithMeasures();
-
             switch (categoryFilter)
             {
                 case "powietrze":
@@ -417,6 +415,7 @@ namespace HackstreeetServer.src.Services
             int len = recordsNumLat * recordsNumLon;
 
             EcoDetails[] details = new EcoDetails[len];
+            var measures = await _measureRepository.GetAllStationsWithMeasures();
 
             int iter = 0;
             for (float i = startLat; i < endLat; i += deltaLat)
@@ -427,10 +426,10 @@ namespace HackstreeetServer.src.Services
                     {
                         Latitude = i,
                         Longitude = j,
-                        AirScore = await FilterGrade(i, j, "powietrze"),
-                        SoundScore = await FilterGrade(i, j, "hałas"),
-                        WaterScore = await FilterGrade(i, j, "woda"),
-                        LightScore = await FilterGrade(i, j, "światło")
+                        AirScore = await FilterGrade(i, j, "powietrze", measures),
+                        SoundScore = await FilterGrade(i, j, "hałas", measures),
+                        WaterScore = await FilterGrade(i, j, "woda", measures),
+                        LightScore = await FilterGrade(i, j, "światło", measures)
                     };
                     newDetail.CalculateOverallScore();
 
