@@ -325,7 +325,7 @@ namespace HackstreeetServer.src.Services
             int iter = 0;
             for (float i = startLat; i < endLat; i += deltaLat)
             {
-                for (float j = startLat; j < endLon; j += deltaLon)
+                for (float j = startLon; j < endLon; j += deltaLon)
                 {
                     EcoDetails newDetail = new EcoDetails
                     {

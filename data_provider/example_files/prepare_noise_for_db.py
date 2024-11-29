@@ -5,6 +5,7 @@ import random
 light_data = pd.read_csv('out_noise.csv',sep=";")
 
 
+random_indexes = random.randint()
 
 light_data = light_data.sample(n=1000)
 
